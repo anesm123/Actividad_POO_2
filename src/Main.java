@@ -1,7 +1,8 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    static Persona[] personas = new Persona[5];
+    static ArrayList<Persona> personas = new ArrayList<>();
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -14,8 +15,9 @@ public class Main {
 
     // Método para capturar datos
     public static void capturarDatos() {
-        for (int i = 0; i < personas.length; i++) {
-            System.out.println("Ingrese los datos de la persona " + (i + 1));
+        String continuar;
+        do {
+            System.out.println("Ingrese los datos de la persona " + (personas.size() + 1));
 
             String nombre;
             do {
@@ -55,12 +57,14 @@ public class Main {
                 }
             }
 
-            personas[i] = new Persona(nombre, apellido, genero, edad);
-        }
+            personas.add(new Persona(nombre, apellido, genero, edad));
 
+            System.out.print("¿Agregar otra persona? (s/n): ");
+            continuar = scanner.nextLine();
+        } while (continuar.equalsIgnoreCase("s"));
     }
 
-    // Método b) Mostrar nombre y género de las 5 personas
+    // Mostrar nombre y género de las personas
     public static void mostrarNombreYGenero() {
         System.out.println("\nNombres y géneros de las personas:");
         for (Persona persona : personas) {
@@ -68,16 +72,17 @@ public class Main {
         }
     }
 
-    // Método c) Calcular promedio de edades
+    // Calcular promedio de edades
     public static double calcularPromedioEdad() {
+        if (personas.isEmpty()) return 0;
         int suma = 0;
         for (Persona persona : personas) {
             suma += persona.getEdad();
         }
-        return (double) suma / personas.length;
+        return (double) suma / personas.size();
     }
 
-    // Método d) y e) Contar personas por género
+    // Contar personas por género
     public static int contarGenero(String generoBuscado) {
         int contador = 0;
         for (Persona persona : personas) {
